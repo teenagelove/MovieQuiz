@@ -17,10 +17,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dLM-37-I7K" userLabel="No button">
-                                <rect key="frame" x="66" y="781" width="75" height="35"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dLM-37-I7K" userLabel="No button">
+                                <rect key="frame" x="20" y="802" width="177" height="60"/>
                                 <color key="backgroundColor" name="YP White"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="jVN-K4-k6c"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name="YSDisplay-Medium" family="YS Display" pointSize="20"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" title="Нет">
@@ -32,9 +34,8 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SrK-5h-HMC" userLabel="Yes button">
-                                <rect key="frame" x="273" y="780" width="75" height="35"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SrK-5h-HMC" userLabel="Yes button">
+                                <rect key="frame" x="217" y="802" width="177" height="60"/>
                                 <color key="backgroundColor" name="YP White"/>
                                 <fontDescription key="fontDescription" name="YSDisplay-Medium" family="YS Display" pointSize="20"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
@@ -47,9 +48,26 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Вопрос:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cgb-VL-dsv" userLabel="Question label">
+                                <rect key="frame" x="20" y="58" width="72" height="24"/>
+                                <fontDescription key="fontDescription" name="YSDisplay-Medium" family="YS Display" pointSize="20"/>
+                                <color key="textColor" name="YP White"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" name="YP Black"/>
+                        <constraints>
+                            <constraint firstItem="cgb-VL-dsv" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="Ayz-xc-LEw"/>
+                            <constraint firstItem="SrK-5h-HMC" firstAttribute="height" secondItem="dLM-37-I7K" secondAttribute="height" id="Gqt-lR-FpC"/>
+                            <constraint firstItem="cgb-VL-dsv" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="JWn-ju-O1x"/>
+                            <constraint firstItem="SrK-5h-HMC" firstAttribute="leading" secondItem="dLM-37-I7K" secondAttribute="trailing" constant="20" id="PbO-tu-VLd"/>
+                            <constraint firstItem="dLM-37-I7K" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="Z1z-Gg-Cp1"/>
+                            <constraint firstItem="SrK-5h-HMC" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="cv7-h5-6Tm"/>
+                            <constraint firstItem="dLM-37-I7K" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="fb8-wT-yzG"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="SrK-5h-HMC" secondAttribute="trailing" constant="20" id="jqy-A6-amN"/>
+                            <constraint firstItem="SrK-5h-HMC" firstAttribute="width" secondItem="dLM-37-I7K" secondAttribute="width" id="otF-gs-6RS"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

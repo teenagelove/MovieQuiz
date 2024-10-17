@@ -1,7 +1,8 @@
 import UIKit
 
+// TODO: Нужно ли вообще это расширение?
 extension UIColor {
-    // Было повторное переопределение цветов, поэтому ypColor -> yColor
+    // Конфликтовало с автоматической генерацией ассетов ypColor -> yColor
     static var yGreen: UIColor { UIColor(named: "YP Green") ?? UIColor.green }
     static var yRed: UIColor { UIColor(named: "YP Red") ?? UIColor.red }
     static var yBlack: UIColor { UIColor(named: "YP Black") ?? UIColor.black}

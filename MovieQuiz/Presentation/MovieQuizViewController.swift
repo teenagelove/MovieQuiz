@@ -50,6 +50,8 @@ final class MovieQuizViewController: UIViewController {
             correctAnswer: false)
     ]
     
+    private lazy var question = questions[currentQuestionIndex]
+    
     // MARK: - Private Properties
     private var currentQuestionIndex = 0
     private var correctAnswerCount = 0
@@ -70,10 +72,14 @@ final class MovieQuizViewController: UIViewController {
        // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        show(quiz: convert(model: questions[currentQuestionIndex]))
+        setupUI()
     }
     
     // MARK: - Private UI Update Methods
+    private func setupUI() {
+        show(quiz: convert(model: questions[currentQuestionIndex]))
+    }
+    
     private func show(quiz step: QuizStepViewModel) {
         counterLabel.text = step.questionNumber
         textLabel.text = step.question
@@ -90,12 +96,16 @@ final class MovieQuizViewController: UIViewController {
         return questionStep
     }
     
+    private func showAnswerResult(isCorrect: Bool) {
+       // метод красит рамку
+    }
+    
     // MARK: - IBActions
     @IBAction private func noButtonClicked(_ sender: UIButton) {
-        
+        showAnswerResult(isCorrect: questions[currentQuestionIndex].correctAnswer)
     }
     @IBAction private func yesButtonClicked(_ sender: UIButton) {
-        
+        showAnswerResult(isCorrect: questions[currentQuestionIndex].correctAnswer)
     }
     
 }

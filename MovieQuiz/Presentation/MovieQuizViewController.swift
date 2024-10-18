@@ -47,14 +47,13 @@ final class MovieQuizViewController: UIViewController {
         QuizQuestion(
             image: "Vivarium",
             text: "Рейтинг этого фильма больше чем 6?",
-            correctAnswer: false)
+            correctAnswer: false),
     ]
-    
-    private lazy var question = questions[currentQuestionIndex]
     
     // MARK: - Private Properties
     private var currentQuestionIndex = 0
-    private var correctAnswerCount = 0
+    private var correctAnswers = 0
+    private lazy var startQuestion = questions[currentQuestionIndex]
     
     // MARK: - View Model
     private struct QuizQuestion {
@@ -69,7 +68,13 @@ final class MovieQuizViewController: UIViewController {
         let questionNumber: String
     }
     
-       // MARK: - Lifecycle
+    private struct QuizResultsViewModel {
+        let title: String
+        let text: String
+        let buttonText: String
+    }
+    
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -77,7 +82,12 @@ final class MovieQuizViewController: UIViewController {
     
     // MARK: - Private UI Update Methods
     private func setupUI() {
-        show(quiz: convert(model: questions[currentQuestionIndex]))
+        show(quiz: convert(model: startQuestion))
+    }
+    
+    private func resetImageBorder() {
+        imageView.layer.borderWidth = 0.0
+        imageView.layer.borderColor = UIColor.clear.cgColor
     }
     
     private func show(quiz step: QuizStepViewModel) {
@@ -97,15 +107,67 @@ final class MovieQuizViewController: UIViewController {
     }
     
     private func showAnswerResult(isCorrect: Bool) {
-       // метод красит рамку
+        if isCorrect {
+            correctAnswers += 1
+        }
+        
+        imageView.layer.borderWidth = 8.0
+        imageView.layer.cornerRadius = 20.0
+        imageView.layer.borderColor = isCorrect ? UIColor.ypGreen.cgColor : UIColor.ypRed.cgColor
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            self.resetImageBorder()
+            self.showNextQuestionOrResult()
+        }
+    }
+    
+    private func showNextQuestionOrResult() {
+        if currentQuestionIndex == questions.count - 1 {
+            let resultMessage = "Ваш результат: \(correctAnswers)/\(questions.count)"
+            let quizResult = QuizResultsViewModel(
+                title: "Этот раунд окончен!",
+                text: resultMessage,
+                buttonText: "Сыграть еще раз"
+            )
+            showAlert(quiz: quizResult)
+        } else {
+            currentQuestionIndex += 1
+            let nextQuestion = questions[currentQuestionIndex]
+            let viewModel = convert(model: nextQuestion)
+            show(quiz: viewModel)
+        }
+    }
+    
+    private func showAlert(quiz result: QuizResultsViewModel) {
+        let alert = UIAlertController(
+            title: result.title,
+            message: result.text,
+            preferredStyle: .alert
+        )
+        
+        let action = UIAlertAction(title: result.buttonText, style: .default) { [self] _ in
+            currentQuestionIndex = 0
+            correctAnswers = 0
+            let viewModel = convert(model: startQuestion)
+            show(quiz: viewModel)
+        }
+        
+        alert.addAction(action)
+        
+        self.present(alert, animated: true, completion: nil)
     }
     
     // MARK: - IBActions
     @IBAction private func noButtonClicked(_ sender: UIButton) {
-        showAnswerResult(isCorrect: questions[currentQuestionIndex].correctAnswer)
+        let currentQuestion = questions[currentQuestionIndex]
+        let givenAnswer = false
+        showAnswerResult(
+            isCorrect: givenAnswer == currentQuestion.correctAnswer)
     }
     @IBAction private func yesButtonClicked(_ sender: UIButton) {
-        showAnswerResult(isCorrect: questions[currentQuestionIndex].correctAnswer)
+        let currentQuestion = questions[currentQuestionIndex]
+        let givenAnswer = true
+        showAnswerResult(
+            isCorrect: givenAnswer == currentQuestion.correctAnswer)
     }
-    
 }

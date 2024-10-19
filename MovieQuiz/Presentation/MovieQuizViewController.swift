@@ -6,6 +6,25 @@ final class MovieQuizViewController: UIViewController {
     @IBOutlet private weak var imageView: UIImageView!
     @IBOutlet private weak var textLabel: UILabel!
     
+    // MARK: - View Model
+    private struct QuizQuestion {
+        let image: String
+        let text: String
+        let correctAnswer: Bool
+    }
+    
+    private struct QuizStepViewModel {
+        let image: UIImage
+        let question: String
+        let questionNumber: String
+    }
+    
+    private struct QuizResultsViewModel {
+        let title: String
+        let text: String
+        let buttonText: String
+    }
+    
     // MARK: - Private Constants
     private let questions: [QuizQuestion] = [
         QuizQuestion(
@@ -55,25 +74,6 @@ final class MovieQuizViewController: UIViewController {
     private var correctAnswers = 0
     private lazy var startQuestion = questions[currentQuestionIndex]
     
-    // MARK: - View Model
-    private struct QuizQuestion {
-        let image: String
-        let text: String
-        let correctAnswer: Bool
-    }
-    
-    private struct QuizStepViewModel {
-        let image: UIImage
-        let question: String
-        let questionNumber: String
-    }
-    
-    private struct QuizResultsViewModel {
-        let title: String
-        let text: String
-        let buttonText: String
-    }
-    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -82,11 +82,16 @@ final class MovieQuizViewController: UIViewController {
     
     // MARK: - Private UI Update Methods
     private func setupUI() {
+        setupImageBorder()
         show(quiz: convert(model: startQuestion))
     }
     
+    private func setupImageBorder() {
+        imageView.layer.borderWidth = 8.0
+        imageView.layer.cornerRadius = 20.0
+    }
+    
     private func resetImageBorder() {
-        imageView.layer.borderWidth = 0.0
         imageView.layer.borderColor = UIColor.clear.cgColor
     }
     
@@ -111,8 +116,6 @@ final class MovieQuizViewController: UIViewController {
             correctAnswers += 1
         }
         
-        imageView.layer.borderWidth = 8.0
-        imageView.layer.cornerRadius = 20.0
         imageView.layer.borderColor = isCorrect ? UIColor.ypGreen.cgColor : UIColor.ypRed.cgColor
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {

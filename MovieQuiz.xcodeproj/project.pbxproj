@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AC5A75BE2CC65A5B00409B07 /* QuestionFactoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC5A75BD2CC65A5B00409B07 /* QuestionFactoryProtocol.swift */; };
 		ACB248212CC12085001B65FD /* YS Display-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACB2481F2CC12085001B65FD /* YS Display-Medium.ttf */; };
 		ACB248222CC12085001B65FD /* YS Display-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACB2481E2CC12085001B65FD /* YS Display-Bold.ttf */; };
 		ACE0D8C32CC5264000B64D6B /* QuestionFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE0D8C22CC5264000B64D6B /* QuestionFactory.swift */; };
@@ -24,6 +25,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		AC5A75BD2CC65A5B00409B07 /* QuestionFactoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionFactoryProtocol.swift; sourceTree = "<group>"; };
 		ACB2481E2CC12085001B65FD /* YS Display-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YS Display-Bold.ttf"; sourceTree = "<group>"; };
 		ACB2481F2CC12085001B65FD /* YS Display-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YS Display-Medium.ttf"; sourceTree = "<group>"; };
 		ACE0D8C22CC5264000B64D6B /* QuestionFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionFactory.swift; sourceTree = "<group>"; };
@@ -67,6 +69,7 @@
 			isa = PBXGroup;
 			children = (
 				ACE0D8C22CC5264000B64D6B /* QuestionFactory.swift */,
+				AC5A75BD2CC65A5B00409B07 /* QuestionFactoryProtocol.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -229,6 +232,7 @@
 				ACE0D8C32CC5264000B64D6B /* QuestionFactory.swift in Sources */,
 				ACE0D8C62CC52A7800B64D6B /* QuizQuestion.swift in Sources */,
 				ACE0D8CA2CC52B3700B64D6B /* QuizResultsViewModel.swift in Sources */,
+				AC5A75BE2CC65A5B00409B07 /* QuestionFactoryProtocol.swift in Sources */,
 				AD1ABAB42831907B00B3E448 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

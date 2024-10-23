@@ -64,10 +64,10 @@
 		611342392B701CF6003FC2A4 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				AC84D8372CC90BBE0049FEDC /* AlertModel.swift */,
 				ACE0D8C52CC52A7800B64D6B /* QuizQuestion.swift */,
 				ACE0D8C72CC52B0F00B64D6B /* QuizStepViewModel.swift */,
 				ACE0D8C92CC52B3700B64D6B /* QuizResultsViewModel.swift */,
-				AC84D8372CC90BBE0049FEDC /* AlertModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -85,9 +85,9 @@
 		8F4738322848DE2A005DF65E /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				AC84D8392CC90CAA0049FEDC /* AlertPresenter.swift */,
 				AD1ABAB52831907B00B3E448 /* MovieQuizViewController.swift */,
 				AD1ABAB72831907B00B3E448 /* Main.storyboard */,
-				AC84D8392CC90CAA0049FEDC /* AlertPresenter.swift */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";

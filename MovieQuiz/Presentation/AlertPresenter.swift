@@ -25,6 +25,6 @@ final class AlertPresenter {
         
         alert.addAction(action)
         
-        present(alert, animated: true, completion: nil)
+        viewController?.present(alert, animated: true, completion: nil)
     }
 }

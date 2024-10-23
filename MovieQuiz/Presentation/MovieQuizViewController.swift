@@ -7,14 +7,14 @@ final class MovieQuizViewController: UIViewController {
     @IBOutlet private weak var textLabel: UILabel!
     @IBOutlet weak var noButtonOutlet: UIButton!
     @IBOutlet weak var yesButtonOutlet: UIButton!
-     
+    
     // MARK: - Private Constants
     private let questionsAmount: Int = 10
     
     // MARK: - Private Properties
     private var currentQuestionIndex = 0
     private var correctAnswers = 0
-    private var questionFactory: QuestionFactoryProtocol = QuestionFactory()
+    private var questionFactory: QuestionFactoryProtocol?
     private var currentQuestion: QuizQuestion?
     
     // MARK: - Lifecycle
@@ -26,12 +26,16 @@ final class MovieQuizViewController: UIViewController {
     // MARK: - Private UI Update Methods
     private func setupUI() {
         setupImageBorder()
+        let questionFactory = QuestionFactory()
+        questionFactory.delegate = self
+        self.questionFactory = questionFactory
+        questionFactory.requestNextQuestion()
+//        if let firstQuestion = questionFactory.requestNextQuestion() {
+//            currentQuestion = firstQuestion
+//            let viewModel = convert(model: firstQuestion)
+//            show(quiz: viewModel)
+//        }
         
-        if let firstQuestion = questionFactory.requestNextQuestion() {
-            currentQuestion = firstQuestion
-            let viewModel = convert(model: firstQuestion)
-            show(quiz: viewModel)
-        }
     }
     
     private func setupImageBorder() {
@@ -91,11 +95,7 @@ final class MovieQuizViewController: UIViewController {
             showAlert(quiz: quizResult)
         } else {
             currentQuestionIndex += 1
-            if let nextQuestion = questionFactory.requestNextQuestion() {
-                currentQuestion = nextQuestion
-                let viewModel = self.convert(model: nextQuestion)
-                show(quiz: viewModel)
-            }
+            questionFactory?.requestNextQuestion()
         }
     }
     
@@ -110,11 +110,7 @@ final class MovieQuizViewController: UIViewController {
             guard let self = self else { return }
             self.currentQuestionIndex = 0
             self.correctAnswers = 0
-            if let firstQuestion = self.questionFactory.requestNextQuestion() {
-                currentQuestion = firstQuestion
-                let viewModel = self.convert(model: firstQuestion)
-                self.show(quiz: viewModel)
-            }
+            self.questionFactory?.requestNextQuestion()
         }
         
         alert.addAction(action)
@@ -134,5 +130,19 @@ final class MovieQuizViewController: UIViewController {
         let givenAnswer = true
         showAnswerResult(
             isCorrect: givenAnswer == currentQuestion.correctAnswer)
+    }
+    
+}
+
+// MARK: - QuestionFactoryDelegate
+extension MovieQuizViewController:  QuestionFactoryDelegate {
+    func didReceiveNextQuestion(question: QuizQuestion?) {
+        guard let question = question else { return }
+        currentQuestion = question
+        let viewModel = convert(model: question)
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.show(quiz: viewModel)
+        }
     }
 }

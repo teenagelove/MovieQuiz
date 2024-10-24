@@ -108,13 +108,17 @@ final class MovieQuizViewController: UIViewController {
             buttonText: result.buttonText,
             completion: { [weak self] in
                 guard let self = self else { return }
-                self.currentQuestionIndex = 0
-                self.correctAnswers = 0
-                self.questionFactory?.requestNextQuestion()
+                self.resetQuiz()
             })
         
         alertPresenter.showAlert(alertModel: alertModel)
         
+    }
+    
+    private func resetQuiz() {
+        currentQuestionIndex = 0
+        correctAnswers = 0
+        questionFactory?.requestNextQuestion()
     }
     
     // MARK: - IBActions

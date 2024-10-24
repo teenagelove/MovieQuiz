@@ -5,8 +5,8 @@ final class MovieQuizViewController: UIViewController {
     @IBOutlet private weak var counterLabel: UILabel!
     @IBOutlet private weak var imageView: UIImageView!
     @IBOutlet private weak var textLabel: UILabel!
-    @IBOutlet weak var noButtonOutlet: UIButton!
-    @IBOutlet weak var yesButtonOutlet: UIButton!
+    @IBOutlet private weak var noButtonOutlet: UIButton!
+    @IBOutlet private weak var yesButtonOutlet: UIButton!
     
     // MARK: - Private Constants
     private let questionsAmount: Int = 10
@@ -30,12 +30,6 @@ final class MovieQuizViewController: UIViewController {
         questionFactory.delegate = self
         self.questionFactory = questionFactory
         questionFactory.requestNextQuestion()
-//        if let firstQuestion = questionFactory.requestNextQuestion() {
-//            currentQuestion = firstQuestion
-//            let viewModel = convert(model: firstQuestion)
-//            show(quiz: viewModel)
-//        }
-        
     }
     
     private func setupImageBorder() {
@@ -92,24 +86,24 @@ final class MovieQuizViewController: UIViewController {
                 text: resultMessage,
                 buttonText: "Сыграть еще раз"
             )
-            showAlert(quiz: quizResult)
+            showAlert(quiz: quizResult) {
+                self.resetQuiz()
+            }
         } else {
             currentQuestionIndex += 1
             questionFactory?.requestNextQuestion()
         }
     }
-    
-    private func showAlert(quiz result: QuizResultsViewModel) {
+
+    private func showAlert(quiz result: QuizResultsViewModel, action: @escaping () -> Void) {
         let alertPresenter = AlertPresenter(viewController: self)
         
         let alertModel = AlertModel(
             title: result.title,
             message: result.text,
             buttonText: result.buttonText,
-            completion: { [weak self] in
-                guard let self = self else { return }
-                self.resetQuiz()
-            })
+            completion: { action()}
+        )
         
         alertPresenter.showAlert(alertModel: alertModel)
         

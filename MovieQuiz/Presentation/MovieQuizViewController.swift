@@ -16,6 +16,7 @@ final class MovieQuizViewController: UIViewController {
     private var correctAnswers: Int = .zero
     private var questionFactory: QuestionFactoryProtocol?
     private var currentQuestion: QuizQuestion?
+    private var statisticService: StatisticServiceProtocol?
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -40,6 +41,11 @@ final class MovieQuizViewController: UIViewController {
     // MARK: - Private UI Update Methods
     private func setupUI() {
         setupImageBorder()
+        setupDelegate()
+        statisticService = StatisticServiceImplementation()
+    }
+    
+    private func setupDelegate() {
         let questionFactory = QuestionFactory()
         questionFactory.delegate = self
         self.questionFactory = questionFactory
@@ -49,6 +55,7 @@ final class MovieQuizViewController: UIViewController {
     private func setupImageBorder() {
         imageView.layer.borderWidth = 8.0
         imageView.layer.cornerRadius = 20.0
+        resetImageBorder()
     }
     
     private func resetImageBorder() {
@@ -93,22 +100,49 @@ final class MovieQuizViewController: UIViewController {
     }
     
     private func showNextQuestionOrResult() {
-        if currentQuestionIndex == questionsAmount - 1 {
-            let resultMessage = "Ваш результат: \(correctAnswers)/\(questionsAmount)"
-            let quizResult = QuizResultsViewModel(
-                title: "Этот раунд окончен!",
-                text: resultMessage,
-                buttonText: "Сыграть еще раз"
-            )
+        if isLastQuestion() {
+            saveResult()
+            let statisticMessage = createStatisticMessage()
+            let quizResult = createQuizResultView(resultMessage: statisticMessage)
             showAlert(quiz: quizResult) {
                 self.resetQuiz()
             }
         } else {
-            currentQuestionIndex += 1
-            questionFactory?.requestNextQuestion()
+            loadNextQuestion()
         }
     }
-
+    
+    private func isLastQuestion() -> Bool {
+        return currentQuestionIndex == questionsAmount - 1
+    }
+    
+    private func loadNextQuestion() {
+        currentQuestionIndex += 1
+        questionFactory?.requestNextQuestion()
+    }
+    
+    private func createStatisticMessage() -> String {
+        let gamesCount = statisticService?.gamesCount ?? 1
+        let bestGameCorrect = statisticService?.bestGame.correct ?? correctAnswers
+        let bestGameTotal = statisticService?.bestGame.total ?? questionsAmount
+        let bestGameDate = statisticService?.bestGame.date.dateTimeString ?? Date().dateTimeString
+        let totalAccuracy = statisticService?.totalAccuracy ?? 0
+        return  """
+                Ваш результат: \(correctAnswers)/\(questionsAmount)
+                Количество сыгранных квизов: \(gamesCount)
+                Рекорд: \(bestGameCorrect)/\(bestGameTotal) (\(bestGameDate))
+                Средняя точность: \(String(format: "%.2f", totalAccuracy))%
+                """
+    }
+    
+    private func createQuizResultView(resultMessage: String) -> QuizResultsViewModel {
+        return QuizResultsViewModel(
+            title: "Этот раунд окончен!",
+            text: resultMessage,
+            buttonText: "Сыграть еще раз"
+        )
+    }
+    
     private func showAlert(quiz result: QuizResultsViewModel, action: @escaping () -> Void) {
         let alertPresenter = AlertPresenter(viewController: self)
         
@@ -116,7 +150,10 @@ final class MovieQuizViewController: UIViewController {
             title: result.title,
             message: result.text,
             buttonText: result.buttonText,
-            completion: { action()}
+            completion: {[weak self] in
+                guard let self else { return }
+                action()
+            }
         )
         
         alertPresenter.showAlert(alertModel: alertModel)
@@ -127,6 +164,17 @@ final class MovieQuizViewController: UIViewController {
         currentQuestionIndex = 0
         correctAnswers = 0
         questionFactory?.requestNextQuestion()
+    }
+    
+    private func saveResult() {
+        guard let statisticService else { return }
+        statisticService.store(
+            gameResult: GameRecord(
+                correct: correctAnswers,
+                total: questionsAmount,
+                date: Date()
+            )
+        )
     }
 }
 

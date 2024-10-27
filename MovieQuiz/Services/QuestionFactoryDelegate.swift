@@ -1,10 +1,3 @@
-//
-//  QuestionFactoryDelegate.swift
-//  MovieQuiz
-//
-//  Created by Danil Kazakov on 23.10.2024.
-//
-
 import Foundation
 
 

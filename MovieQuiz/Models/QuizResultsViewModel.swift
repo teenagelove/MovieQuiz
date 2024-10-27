@@ -1,10 +1,3 @@
-//
-//  QuizResultsViewModel.swift
-//  MovieQuiz
-//
-//  Created by Danil Kazakov on 20.10.2024.
-//
-
 import Foundation
 
 

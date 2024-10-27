@@ -12,8 +12,8 @@ final class MovieQuizViewController: UIViewController {
     private let questionsAmount: Int = 10
     
     // MARK: - Private Properties
-    private var currentQuestionIndex = 0
-    private var correctAnswers = 0
+    private var currentQuestionIndex: Int = .zero
+    private var correctAnswers: Int = .zero
     private var questionFactory: QuestionFactoryProtocol?
     private var currentQuestion: QuizQuestion?
     
@@ -21,6 +21,20 @@ final class MovieQuizViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+    }
+    
+    // MARK: - IBActions
+    @IBAction private func noButtonClicked(_ sender: UIButton) {
+        guard let currentQuestion else { return }
+        let givenAnswer = false
+        showAnswerResult(
+            isCorrect: givenAnswer == currentQuestion.correctAnswer)
+    }
+    @IBAction private func yesButtonClicked(_ sender: UIButton) {
+        guard let currentQuestion else { return }
+        let givenAnswer = true
+        showAnswerResult(
+            isCorrect: givenAnswer == currentQuestion.correctAnswer)
     }
     
     // MARK: - Private UI Update Methods
@@ -71,7 +85,7 @@ final class MovieQuizViewController: UIViewController {
         updateButtonState()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
             self.resetImageBorder()
             self.showNextQuestionOrResult()
             self.updateButtonState()
@@ -114,27 +128,12 @@ final class MovieQuizViewController: UIViewController {
         correctAnswers = 0
         questionFactory?.requestNextQuestion()
     }
-    
-    // MARK: - IBActions
-    @IBAction private func noButtonClicked(_ sender: UIButton) {
-        guard let currentQuestion = currentQuestion else { return }
-        let givenAnswer = false
-        showAnswerResult(
-            isCorrect: givenAnswer == currentQuestion.correctAnswer)
-    }
-    @IBAction private func yesButtonClicked(_ sender: UIButton) {
-        guard let currentQuestion = currentQuestion else { return }
-        let givenAnswer = true
-        showAnswerResult(
-            isCorrect: givenAnswer == currentQuestion.correctAnswer)
-    }
-    
 }
 
 // MARK: - QuestionFactoryDelegate
 extension MovieQuizViewController:  QuestionFactoryDelegate {
     func didReceiveNextQuestion(question: QuizQuestion?) {
-        guard let question = question else { return }
+        guard let question else { return }
         currentQuestion = question
         let viewModel = convert(model: question)
         

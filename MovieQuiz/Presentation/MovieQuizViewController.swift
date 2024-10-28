@@ -98,7 +98,8 @@ final class MovieQuizViewController: UIViewController {
             saveResult()
             let statisticMessage = createStatisticMessage()
             let quizResult = createQuizResultView(resultMessage: statisticMessage)
-            showAlert(quiz: quizResult) {
+            showAlert(quiz: quizResult) { [weak self] in
+                guard let self else { return }
                 self.resetQuiz()
             }
         } else {

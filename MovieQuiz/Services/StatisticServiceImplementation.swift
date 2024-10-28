@@ -55,9 +55,7 @@ extension StatisticServiceImplementation: StatisticServiceProtocol {
         gamesCount += 1
         
         if game.isBetterThan(bestGame) {
-            bestGame.correct = game.correct
-            bestGame.total = game.total
-            bestGame.date = game.date
+            bestGame = game
         }
     }
 }

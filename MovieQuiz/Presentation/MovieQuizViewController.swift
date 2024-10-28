@@ -26,16 +26,10 @@ final class MovieQuizViewController: UIViewController {
     
     // MARK: - IBActions
     @IBAction private func noButtonClicked(_ sender: UIButton) {
-        guard let currentQuestion else { return }
-        let givenAnswer = false
-        showAnswerResult(
-            isCorrect: givenAnswer == currentQuestion.correctAnswer)
+        giveAnswer(givenAnswer: false)
     }
     @IBAction private func yesButtonClicked(_ sender: UIButton) {
-        guard let currentQuestion else { return }
-        let givenAnswer = true
-        showAnswerResult(
-            isCorrect: givenAnswer == currentQuestion.correctAnswer)
+        giveAnswer(givenAnswer: true)
     }
     
     // MARK: - Private UI Update Methods
@@ -150,10 +144,7 @@ final class MovieQuizViewController: UIViewController {
             title: result.title,
             message: result.text,
             buttonText: result.buttonText,
-            completion: {[weak self] in
-                guard let self else { return }
-                action()
-            }
+            completion: { action() }
         )
         
         alertPresenter.showAlert(alertModel: alertModel)
@@ -175,6 +166,11 @@ final class MovieQuizViewController: UIViewController {
                 date: Date()
             )
         )
+    }
+    
+    private func giveAnswer(givenAnswer answer: Bool) {
+        guard let currentQuestion else { return }
+        showAnswerResult(isCorrect: currentQuestion.correctAnswer == answer)
     }
 }
 

@@ -7,6 +7,7 @@ final class MovieQuizViewController: UIViewController {
     @IBOutlet private weak var textLabel: UILabel!
     @IBOutlet private weak var noButtonOutlet: UIButton!
     @IBOutlet private weak var yesButtonOutlet: UIButton!
+    @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
     
     // MARK: - Private Constants
     private let questionsAmount: Int = 10
@@ -65,6 +66,15 @@ final class MovieQuizViewController: UIViewController {
         counterLabel.text = step.questionNumber
         textLabel.text = step.question
         imageView.image = step.image
+    }
+    
+    private func showLoadingIndicator() {
+        activityIndicator.isHidden = false
+        activityIndicator.startAnimating()
+    }
+    
+    private func hideLoadingIndicator() {
+        activityIndicator.isHidden = true
     }
     
     // MARK: - Private Logic Methods
@@ -172,6 +182,26 @@ final class MovieQuizViewController: UIViewController {
     private func giveAnswer(givenAnswer answer: Bool) {
         guard let currentQuestion else { return }
         showAnswerResult(isCorrect: currentQuestion.correctAnswer == answer)
+    }
+    
+    private func showNetworkError(message: String) {
+        hideLoadingIndicator()
+        
+        let alertPresenter = AlertPresenter(viewController: self)
+        
+        let alertModel = AlertModel(
+            title: "Ошибка",
+            message: message,
+            buttonText: "Попробовать еще раз",
+            completion: loadDataFromNetwork
+        )
+        
+        alertPresenter.showAlert(alertModel: alertModel)
+    }
+    
+    private func loadDataFromNetwork() {
+        showLoadingIndicator()
+        questionFactory?.requestNextQuestion()
     }
 }
 

@@ -107,11 +107,8 @@ final class MovieQuizViewController: UIViewController {
         if isLastQuestion() {
             saveResult()
             let statisticMessage = createStatisticMessage()
-            let quizResult = createQuizResultView(resultMessage: statisticMessage)
-            showAlert(quiz: quizResult) { [weak self] in
-                guard let self else { return }
-                self.resetQuiz()
-            }
+            let quizResult = createQuizResultAlert(resultMessage: statisticMessage)
+            showAlert(alert: quizResult)
         } else {
             loadNextQuestion()
         }
@@ -140,26 +137,32 @@ final class MovieQuizViewController: UIViewController {
                 """
     }
     
-    private func createQuizResultView(resultMessage: String) -> QuizResultsViewModel {
-        return QuizResultsViewModel(
+    private func createQuizResultAlert(resultMessage: String) -> AlertModel {
+        return createAlertModel(
             title: "Этот раунд окончен!",
-            text: resultMessage,
-            buttonText: "Сыграть еще раз"
+            message: resultMessage,
+            buttonText: "Сыграть еще раз",
+            completion: resetQuiz
         )
     }
     
-    private func showAlert(quiz result: QuizResultsViewModel, action: @escaping () -> Void) {
-        let alertPresenter = AlertPresenter(viewController: self)
-        
-        let alertModel = AlertModel(
-            title: result.title,
-            message: result.text,
-            buttonText: result.buttonText,
-            completion: { action() }
+    private func createAlertModel(
+        title: String,
+        message: String,
+        buttonText: String,
+        completion: @escaping () -> Void
+    ) -> AlertModel {
+        return AlertModel(
+            title: title,
+            message: message,
+            buttonText: buttonText,
+            completion: completion
         )
-        
-        alertPresenter.showAlert(alertModel: alertModel)
-        
+    }
+    
+    private func showAlert(alert: AlertModel) {
+        let alertPresenter = AlertPresenter(viewController: self)
+        alertPresenter.showAlert(alertModel: alert)
     }
     
     private func resetQuiz() {
@@ -186,22 +189,17 @@ final class MovieQuizViewController: UIViewController {
     
     private func showNetworkError(message: String) {
         hideLoadingIndicator()
-        
-        let alertPresenter = AlertPresenter(viewController: self)
-        
-        let alertModel = AlertModel(
+        let alert = createNetworkErrorAlert(message: message)
+        showAlert(alert: alert)
+    }
+    
+    private func createNetworkErrorAlert(message: String) -> AlertModel {
+        return createAlertModel(
             title: "Ошибка",
             message: message,
             buttonText: "Попробовать еще раз",
-            completion: loadDataFromNetwork
+            completion: resetQuiz
         )
-        
-        alertPresenter.showAlert(alertModel: alertModel)
-    }
-    
-    private func loadDataFromNetwork() {
-        showLoadingIndicator()
-        questionFactory?.requestNextQuestion()
     }
 }
 

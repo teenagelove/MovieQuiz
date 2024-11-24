@@ -79,13 +79,13 @@ final class QuestionFactory: QuestionFactoryProtocol {
             var imageData = Data()
             
             do {
-                imageData = try Data(contentsOf: movie.imageURL)
+                imageData = try Data(contentsOf: movie.resizedImageURL)
             } catch {
                 print("Failed to load image data: \(error)")
             }
             
             let rating = Float(movie.rating) ?? 0
-            let questionRating = Float([7.0, 7.5, 8.0, 8.5, 9.0].randomElement() ?? 0)
+            let questionRating = Float([7.5, 8.0, 8.5, 9.0].randomElement() ?? 0)
             let moreOrLess = Bool.random()
             let text = "Рейтинг этого фильма \(moreOrLess ? "больше" : "меньше") чем \(questionRating)?"
             let correctAnswer = (rating > questionRating) == moreOrLess

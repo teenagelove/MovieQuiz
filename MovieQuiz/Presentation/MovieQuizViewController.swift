@@ -198,7 +198,7 @@ final class MovieQuizViewController: UIViewController {
     }
     
     private func showLoadImageError(message: String) {
-        showNetworkError(message: message, completion: loadNextQuestion)
+        showNetworkError(message: message, completion: reloadQuestion)
     }
     
     private func showNetworkError(message: String, completion: @escaping () -> Void) {
@@ -207,7 +207,7 @@ final class MovieQuizViewController: UIViewController {
         showAlert(alert: alert)
     }
     
-    private func loadNextQuestion() {
+    private func reloadQuestion() {
         showLoadingIndicator()
         questionFactory?.requestNextQuestion()
     }

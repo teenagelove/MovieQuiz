@@ -116,7 +116,7 @@ final class MovieQuizViewController: UIViewController {
             let quizResult = createQuizResultAlert(resultMessage: statisticMessage)
             showAlert(alert: quizResult)
         } else {
-            loadNextQuestion()
+            showNextQuestion()
         }
     }
     
@@ -124,9 +124,9 @@ final class MovieQuizViewController: UIViewController {
         return currentQuestionIndex == questionsAmount - 1
     }
     
-    private func loadNextQuestion() {
+    private func showNextQuestion() {
         currentQuestionIndex += 1
-        questionFactory?.requestNextQuestion()
+        loadNextQuestion()
     }
     
     private func createStatisticMessage() -> String {
@@ -174,7 +174,7 @@ final class MovieQuizViewController: UIViewController {
     private func resetQuiz() {
         currentQuestionIndex = 0
         correctAnswers = 0
-        questionFactory?.requestNextQuestion()
+        loadNextQuestion()
     }
     
     private func saveResult() {
@@ -193,19 +193,21 @@ final class MovieQuizViewController: UIViewController {
         showAnswerResult(isCorrect: currentQuestion.correctAnswer == answer)
     }
     
-    private func showNetworkError(message: String) {
-        hideLoadingIndicator()
-        let alert = createNetworkErrorAlert(message: message, completion: loadData)
-        showAlert(alert: alert)
+    private func showLoadDataError(message: String) {
+        showNetworkError(message: message, completion: loadData)
     }
     
     private func showLoadImageError(message: String) {
+        showNetworkError(message: message, completion: loadNextQuestion)
+    }
+    
+    private func showNetworkError(message: String, completion: @escaping () -> Void) {
         hideLoadingIndicator()
-        let alert = createNetworkErrorAlert(message: message, completion: reloadImage)
+        let alert = createNetworkErrorAlert(message: message, completion: completion)
         showAlert(alert: alert)
     }
     
-    private func reloadImage() {
+    private func loadNextQuestion() {
         showLoadingIndicator()
         questionFactory?.requestNextQuestion()
     }
@@ -239,7 +241,7 @@ extension MovieQuizViewController:  QuestionFactoryDelegate {
     }
     
     func didFailToLoadData(with error: any Error) {
-        showNetworkError(message: error.localizedDescription)
+        showLoadDataError(message: error.localizedDescription)
     }
     
     func didFailToLoadImage(with error: any Error) {

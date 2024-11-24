@@ -13,8 +13,8 @@ final class MovieQuizViewController: UIViewController {
     private let questionsAmount: Int = 10
     
     // MARK: - Private Properties
-    private var currentQuestionIndex: Int = .zero
-    private var correctAnswers: Int = .zero
+    private(set) var currentQuestionIndex: Int = .zero
+    private(set) var correctAnswers: Int = .zero
     private var questionFactory: QuestionFactoryProtocol?
     private var currentQuestion: QuizQuestion?
     private var statisticService: StatisticServiceProtocol?
@@ -22,7 +22,7 @@ final class MovieQuizViewController: UIViewController {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupUI()
+        setup()
     }
     
     // MARK: - IBActions
@@ -34,23 +34,29 @@ final class MovieQuizViewController: UIViewController {
     }
     
     // MARK: - Private UI Update Methods
+    private func setup() {
+        setupUI()
+        loadData()
+        statisticService = StatisticServiceImplementation()
+    }
     private func setupUI() {
         setupImageBorder()
         setupDelegate()
-        statisticService = StatisticServiceImplementation()
     }
     
     private func setupDelegate() {
-        let questionFactory = QuestionFactory()
-        questionFactory.delegate = self
-        self.questionFactory = questionFactory
-        questionFactory.requestNextQuestion()
+        self.questionFactory = QuestionFactory(moviesLoader: MoviesLoader(), delegate: self)
     }
     
     private func setupImageBorder() {
         imageView.layer.borderWidth = 8.0
         imageView.layer.cornerRadius = 20.0
         resetImageBorder()
+    }
+    
+    private func loadData() {
+        showLoadingIndicator()
+        questionFactory?.loadData()
     }
     
     private func resetImageBorder() {
@@ -80,7 +86,7 @@ final class MovieQuizViewController: UIViewController {
     // MARK: - Private Logic Methods
     private func convert(model: QuizQuestion) -> QuizStepViewModel {
         let questionStep = QuizStepViewModel(
-            image: UIImage(named: model.image) ?? UIImage(),
+            image: UIImage(data: model.image) ?? UIImage(),
             question: model.text,
             questionNumber: "\(currentQuestionIndex + 1)/\(questionsAmount)"
         )
@@ -213,5 +219,14 @@ extension MovieQuizViewController:  QuestionFactoryDelegate {
         DispatchQueue.main.async { [weak self] in
             self?.show(quiz: viewModel)
         }
+    }
+    
+    func didLoadDataFromServer() {
+        hideLoadingIndicator()
+        questionFactory?.requestNextQuestion()
+    }
+    
+    func didFailToLoadData(with error: any Error) {
+        showNetworkError(message: error.localizedDescription)
     }
 }

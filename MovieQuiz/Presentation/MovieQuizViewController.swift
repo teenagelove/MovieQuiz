@@ -126,7 +126,7 @@ final class MovieQuizViewController: UIViewController {
     
     private func showNextQuestion() {
         currentQuestionIndex += 1
-        loadNextQuestion()
+        questionFactory?.requestNextQuestion()
     }
     
     private func createStatisticMessage() -> String {
@@ -174,7 +174,7 @@ final class MovieQuizViewController: UIViewController {
     private func resetQuiz() {
         currentQuestionIndex = 0
         correctAnswers = 0
-        loadNextQuestion()
+        questionFactory?.requestNextQuestion()
     }
     
     private func saveResult() {

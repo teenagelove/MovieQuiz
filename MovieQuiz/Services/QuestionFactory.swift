@@ -81,7 +81,11 @@ final class QuestionFactory: QuestionFactoryProtocol {
             do {
                 imageData = try Data(contentsOf: movie.resizedImageURL)
             } catch {
-                print("Failed to load image data: \(error)")
+                DispatchQueue.main.async { [weak self] in
+                    guard let self else { return }
+                    self.delegate?.didFailToLoadImage(with: error)
+                    return
+                }
             }
             
             let rating = Float(movie.rating) ?? 0
@@ -89,9 +93,6 @@ final class QuestionFactory: QuestionFactoryProtocol {
             let moreOrLess = Bool.random()
             let text = "Рейтинг этого фильма \(moreOrLess ? "больше" : "меньше") чем \(questionRating)?"
             let correctAnswer = (rating > questionRating) == moreOrLess
-            
-            #warning("TODO: Remove movie details")
-            print("\(movie.title) has rating: \(rating)")
             
             let question = QuizQuestion(
                 image: imageData,

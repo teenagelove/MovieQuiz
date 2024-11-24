@@ -195,16 +195,27 @@ final class MovieQuizViewController: UIViewController {
     
     private func showNetworkError(message: String) {
         hideLoadingIndicator()
-        let alert = createNetworkErrorAlert(message: message)
+        let alert = createNetworkErrorAlert(message: message, completion: loadData)
         showAlert(alert: alert)
     }
     
-    private func createNetworkErrorAlert(message: String) -> AlertModel {
+    private func showLoadImageError(message: String) {
+        hideLoadingIndicator()
+        let alert = createNetworkErrorAlert(message: message, completion: reloadImage)
+        showAlert(alert: alert)
+    }
+    
+    private func reloadImage() {
+        showLoadingIndicator()
+        questionFactory?.requestNextQuestion()
+    }
+    
+    private func createNetworkErrorAlert(message: String, completion: @escaping () -> Void) -> AlertModel {
         return createAlertModel(
             title: "Ошибка",
             message: message,
             buttonText: "Попробовать еще раз",
-            completion: resetQuiz
+            completion: completion
         )
     }
 }
@@ -217,6 +228,7 @@ extension MovieQuizViewController:  QuestionFactoryDelegate {
         let viewModel = convert(model: question)
         
         DispatchQueue.main.async { [weak self] in
+            self?.hideLoadingIndicator()
             self?.show(quiz: viewModel)
         }
     }
@@ -228,5 +240,9 @@ extension MovieQuizViewController:  QuestionFactoryDelegate {
     
     func didFailToLoadData(with error: any Error) {
         showNetworkError(message: error.localizedDescription)
+    }
+    
+    func didFailToLoadImage(with error: any Error) {
+        showLoadImageError(message: error.localizedDescription)
     }
 }

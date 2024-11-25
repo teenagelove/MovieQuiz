@@ -7,6 +7,7 @@ protocol MoviesLoading {
 struct MoviesLoader: MoviesLoading {
     // MARK: - Network Client
     private let networkClient = NetworkClient()
+    private let decoder = JSONDecoder()
     
     // MARK: - URL
     private var mostPopularMoviesUrl: URL {
@@ -21,7 +22,7 @@ struct MoviesLoader: MoviesLoading {
             switch result {
             case .success(let data):
                 do {
-                    let mostPopularMovies = try JSONDecoder().decode(MostPopularMovies.self, from: data)
+                    let mostPopularMovies = try decoder.decode(MostPopularMovies.self, from: data)
                     handler(.success(mostPopularMovies))
                 } catch {
                     handler(.failure(error))

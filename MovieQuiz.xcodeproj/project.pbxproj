@@ -184,8 +184,8 @@
 		AD1ABAA52831907B00B3E448 = {
 			isa = PBXGroup;
 			children = (
-				AC1195302CFB2122001DC530 /* MovieQuiz.xctestplan */,
 				AD1ABAB02831907B00B3E448 /* MovieQuiz */,
+				AC1195302CFB2122001DC530 /* MovieQuiz.xctestplan */,
 				AC376F582CF89F82008F6B04 /* MovieQuizTests */,
 				AC1195262CFB1BF2001DC530 /* MovieQuizUITests */,
 				AD1ABAAF2831907B00B3E448 /* Products */,

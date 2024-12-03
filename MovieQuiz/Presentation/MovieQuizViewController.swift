@@ -13,9 +13,7 @@ final class MovieQuizViewController: UIViewController {
     private let presenter = MovieQuizPresenter()
     
     // MARK: - Private Properties
-    private(set) var correctAnswers: Int = .zero
     private var questionFactory: QuestionFactoryProtocol?
-    private var currentQuestion: QuizQuestion?
     private var statisticService: StatisticServiceProtocol?
     
     // MARK: - Lifecycle
@@ -26,24 +24,39 @@ final class MovieQuizViewController: UIViewController {
     
     // MARK: - IBActions
     @IBAction private func noButtonClicked(_ sender: UIButton) {
-        presenter.currentQuestion = currentQuestion
         presenter.noButtonClicked()
     }
     @IBAction private func yesButtonClicked(_ sender: UIButton) {
-        presenter.currentQuestion = currentQuestion
         presenter.yesButtonClicked()
+    }
+    
+    // MARK: - Public UI Update Methods
+    func showLoadingIndicator() {
+        activityIndicator.isHidden = false
+        activityIndicator.startAnimating()
+    }
+    
+    func hideLoadingIndicator() {
+        activityIndicator.isHidden = true
     }
     
     // MARK: - Private UI Update Methods
     private func setup() {
         setupUI()
-        loadData()
+        setupPresenter()
         statisticService = StatisticServiceImplementation()
         presenter.viewController = self
     }
     private func setupUI() {
         setupImageBorder()
         setupDelegate()
+    }
+    
+    private func setupPresenter() {
+        presenter.viewController = self
+        presenter.questionFactory = questionFactory
+        presenter.loadData()
+        presenter.statisticService = statisticService
     }
     
     private func setupDelegate() {
@@ -56,11 +69,6 @@ final class MovieQuizViewController: UIViewController {
         resetImageBorder()
     }
     
-    private func loadData() {
-        showLoadingIndicator()
-        questionFactory?.loadData()
-    }
-    
     private func resetImageBorder() {
         imageView.layer.borderColor = UIColor.clear.cgColor
     }
@@ -69,26 +77,10 @@ final class MovieQuizViewController: UIViewController {
         noButtonOutlet.isEnabled.toggle()
         yesButtonOutlet.isEnabled.toggle()
     }
-    
-    private func show(quiz step: QuizStepViewModel) {
-        counterLabel.text = step.questionNumber
-        textLabel.text = step.question
-        imageView.image = step.image
-    }
-    
-    private func showLoadingIndicator() {
-        activityIndicator.isHidden = false
-        activityIndicator.startAnimating()
-    }
-    
-    private func hideLoadingIndicator() {
-        activityIndicator.isHidden = true
-    }
-    
     // MARK: - Public Logic Methods
     func showAnswerResult(isCorrect: Bool) {
         if isCorrect {
-            correctAnswers += 1
+            presenter.correctAnswers += 1
         }
         
         imageView.layer.borderColor = isCorrect ? UIColor.ypGreen.cgColor : UIColor.ypRed.cgColor
@@ -97,133 +89,22 @@ final class MovieQuizViewController: UIViewController {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
             guard let self else { return }
             self.resetImageBorder()
-            self.showNextQuestionOrResult()
+            self.presenter.showNextQuestionOrResult()
             self.updateButtonState()
         }
     }
     
-    // MARK: - Private Logic Methods
-    private func showNextQuestionOrResult() {
-        if presenter.isLastQuestion() {
-            saveResult()
-            let statisticMessage = createStatisticMessage()
-            let quizResult = createQuizResultAlert(resultMessage: statisticMessage)
-            showAlert(alert: quizResult)
-        } else {
-            showNextQuestion()
-        }
-    }
-    
-    private func showNextQuestion() {
-        presenter.switchToNextQuestion()
-        questionFactory?.requestNextQuestion()
-    }
-    
-    private func createStatisticMessage() -> String {
-        let gamesCount = statisticService?.gamesCount ?? 1
-        let bestGameCorrect = statisticService?.bestGame.correct ?? correctAnswers
-        let bestGameTotal = statisticService?.bestGame.total ?? presenter.questionsAmount
-        let bestGameDate = statisticService?.bestGame.date.dateTimeString ?? Date().dateTimeString
-        let totalAccuracy = statisticService?.totalAccuracy ?? 0
-        return  """
-                Ваш результат: \(correctAnswers)/\(presenter.questionsAmount)
-                Количество сыгранных квизов: \(gamesCount)
-                Рекорд: \(bestGameCorrect)/\(bestGameTotal) (\(bestGameDate))
-                Средняя точность: \(String(format: "%.2f", totalAccuracy))%
-                """
-    }
-    
-    private func createQuizResultAlert(resultMessage: String) -> AlertModel {
-        return createAlertModel(
-            title: "Этот раунд окончен!",
-            message: resultMessage,
-            buttonText: "Сыграть еще раз",
-            completion: resetQuiz
-        )
-    }
-    
-    private func createAlertModel(
-        title: String,
-        message: String,
-        buttonText: String,
-        completion: @escaping () -> Void
-    ) -> AlertModel {
-        return AlertModel(
-            title: title,
-            message: message,
-            buttonText: buttonText,
-            completion: completion
-        )
-    }
-    
-    private func showAlert(alert: AlertModel) {
-        let alertPresenter = AlertPresenter(viewController: self)
-        alertPresenter.showAlert(alertModel: alert)
-    }
-    
-    private func resetQuiz() {
-        presenter.resetQuizIndex()
-        correctAnswers = 0
-        questionFactory?.requestNextQuestion()
-    }
-    
-    private func saveResult() {
-        guard let statisticService else { return }
-        statisticService.store(
-            gameResult: GameRecord(
-                correct: correctAnswers,
-                total: presenter.questionsAmount,
-                date: Date()
-            )
-        )
-    }
-    
-    private func giveAnswer(givenAnswer answer: Bool) {
-        guard let currentQuestion else { return }
-        showAnswerResult(isCorrect: currentQuestion.correctAnswer == answer)
-    }
-    
-    private func showLoadDataError(message: String) {
-        showNetworkError(message: message, completion: loadData)
-    }
-    
-    private func showLoadImageError(message: String) {
-        showNetworkError(message: message, completion: reloadQuestion)
-    }
-    
-    private func showNetworkError(message: String, completion: @escaping () -> Void) {
-        hideLoadingIndicator()
-        let alert = createNetworkErrorAlert(message: message, completion: completion)
-        showAlert(alert: alert)
-    }
-    
-    private func reloadQuestion() {
-        showLoadingIndicator()
-        questionFactory?.requestNextQuestion()
-    }
-    
-    private func createNetworkErrorAlert(message: String, completion: @escaping () -> Void) -> AlertModel {
-        return createAlertModel(
-            title: "Ошибка",
-            message: message,
-            buttonText: "Попробовать еще раз",
-            completion: completion
-        )
-    }
+    func show(quiz step: QuizStepViewModel) {
+         counterLabel.text = step.questionNumber
+         textLabel.text = step.question
+         imageView.image = step.image
+     }
 }
 
 // MARK: - QuestionFactoryDelegate
 extension MovieQuizViewController:  QuestionFactoryDelegate {
     func didReceiveNextQuestion(question: QuizQuestion?) {
-        guard let question else { return }
-        currentQuestion = question
-        let viewModel = presenter.convert(model: question)
-        
-        DispatchQueue.main.async { [weak self] in
-            guard let self else { return }
-            self.hideLoadingIndicator()
-            self.show(quiz: viewModel)
-        }
+        presenter.didReceiveNextQuestion(question: question)
     }
     
     func didLoadDataFromServer() {
@@ -232,10 +113,10 @@ extension MovieQuizViewController:  QuestionFactoryDelegate {
     }
     
     func didFailToLoadData(with error: any Error) {
-        showLoadDataError(message: error.localizedDescription)
+        presenter.showLoadDataError(message: error.localizedDescription)
     }
     
     func didFailToLoadImage(with error: any Error) {
-        showLoadImageError(message: error.localizedDescription)
+        presenter.showLoadImageError(message: error.localizedDescription)
     }
 }

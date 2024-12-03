@@ -38,10 +38,6 @@ final class MovieQuizViewController: UIViewController {
         activityIndicator.isHidden = true
     }
     
-    func resetImageBorder() {
-        imageView.layer.borderColor = UIColor.clear.cgColor
-    }
-    
     func updateButtonState() {
         noButtonOutlet.isEnabled.toggle()
         yesButtonOutlet.isEnabled.toggle()
@@ -102,5 +98,8 @@ final class MovieQuizViewController: UIViewController {
         imageView.layer.borderWidth = 8.0
         imageView.layer.cornerRadius = 20.0
         resetImageBorder()
+    }
+    private func resetImageBorder() {
+        imageView.layer.borderColor = UIColor.clear.cgColor
     }
 }

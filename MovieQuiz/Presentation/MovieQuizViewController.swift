@@ -26,10 +26,12 @@ final class MovieQuizViewController: UIViewController {
     
     // MARK: - IBActions
     @IBAction private func noButtonClicked(_ sender: UIButton) {
-        giveAnswer(givenAnswer: false)
+        presenter.currentQuestion = currentQuestion
+        presenter.noButtonClicked()
     }
     @IBAction private func yesButtonClicked(_ sender: UIButton) {
-        giveAnswer(givenAnswer: true)
+        presenter.currentQuestion = currentQuestion
+        presenter.yesButtonClicked()
     }
     
     // MARK: - Private UI Update Methods
@@ -37,6 +39,7 @@ final class MovieQuizViewController: UIViewController {
         setupUI()
         loadData()
         statisticService = StatisticServiceImplementation()
+        presenter.viewController = self
     }
     private func setupUI() {
         setupImageBorder()
@@ -82,8 +85,8 @@ final class MovieQuizViewController: UIViewController {
         activityIndicator.isHidden = true
     }
     
-    // MARK: - Private Logic Methods
-    private func showAnswerResult(isCorrect: Bool) {
+    // MARK: - Public Logic Methods
+    func showAnswerResult(isCorrect: Bool) {
         if isCorrect {
             correctAnswers += 1
         }
@@ -99,6 +102,7 @@ final class MovieQuizViewController: UIViewController {
         }
     }
     
+    // MARK: - Private Logic Methods
     private func showNextQuestionOrResult() {
         if presenter.isLastQuestion() {
             saveResult()

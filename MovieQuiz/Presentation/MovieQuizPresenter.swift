@@ -98,9 +98,7 @@ final class MovieQuizPresenter {
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
             guard let self else { return }
-            viewController?.resetImageBorder()
             self.proceedToNextQuestionOrResults()
-            viewController?.updateButtonState()
         }
     }
     

@@ -49,6 +49,8 @@ final class MovieQuizViewController: UIViewController {
     }
     
     func show(quiz step: QuizStepViewModel) {
+        resetImageBorder()
+        updateButtonState()
         counterLabel.text = step.questionNumber
         textLabel.text = step.question
         imageView.image = step.image
@@ -94,6 +96,7 @@ final class MovieQuizViewController: UIViewController {
     }
     private func setupUI() {
         setupImageBorder()
+        updateButtonState()
     }
     
     private func setupPresenter() {

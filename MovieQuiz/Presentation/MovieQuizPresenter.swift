@@ -20,6 +20,13 @@ final class MovieQuizPresenter {
         viewController.showLoadingIndicator()
     }
     
+    func noButtonClicked() {
+        giveAnswer(givenAnswer: false)
+    }
+    func yesButtonClicked() {
+        giveAnswer(givenAnswer: true)
+    }
+    
     private func isLastQuestion() -> Bool {
         currentQuestionIndex == questionsAmount - 1
     }
@@ -30,11 +37,11 @@ final class MovieQuizPresenter {
         questionFactory?.requestNextQuestion()
     }
     
-    func switchToNextQuestion() {
+    private func switchToNextQuestion() {
         currentQuestionIndex += 1
     }
     
-    func convert(model: QuizQuestion) -> QuizStepViewModel {
+    private func convert(model: QuizQuestion) -> QuizStepViewModel {
         let questionStep = QuizStepViewModel(
             image: UIImage(data: model.image) ?? UIImage(),
             question: model.text,
@@ -43,14 +50,7 @@ final class MovieQuizPresenter {
         return questionStep
     }
     
-    func noButtonClicked() {
-        giveAnswer(givenAnswer: false)
-    }
-    func yesButtonClicked() {
-        giveAnswer(givenAnswer: true)
-    }
-    
-    func proceedToNextQuestionOrResults() {
+    private func proceedToNextQuestionOrResults() {
         if self.isLastQuestion() {
             saveResult()
             let statisticMessage = makeResultsMessage()
@@ -64,7 +64,7 @@ final class MovieQuizPresenter {
         }
     }
     
-    func makeResultsMessage() -> String {
+    private func makeResultsMessage() -> String {
         let gamesCount = statisticService?.gamesCount ?? 1
         let bestGameCorrect = statisticService?.bestGame.correct ?? correctAnswers
         let bestGameTotal = statisticService?.bestGame.total ?? questionsAmount
@@ -78,17 +78,17 @@ final class MovieQuizPresenter {
                 """
     }
     
-    func loadData() {
+    private func loadData() {
         viewController?.showLoadingIndicator()
         questionFactory?.loadData()
     }
     
-    func loadQuestion() {
+    private func loadQuestion() {
         viewController?.showLoadingIndicator()
         questionFactory?.requestNextQuestion()
     }
     
-    func proceedWithAnswer(isCorrect: Bool) {
+    private func proceedWithAnswer(isCorrect: Bool) {
         if isCorrect {
             self.correctAnswers += 1
         }
@@ -126,25 +126,11 @@ final class MovieQuizPresenter {
     }
     
     private func createQuizResultAlert(resultMessage: String) -> AlertModel {
-        return createAlertModel(
+        return AlertModel(
             title: "Этот раунд окончен!",
             message: resultMessage,
             buttonText: "Сыграть еще раз",
             completion: restartGame
-        )
-    }
-    
-    private func createAlertModel(
-        title: String,
-        message: String,
-        buttonText: String,
-        completion: @escaping () -> Void
-    ) -> AlertModel {
-        return AlertModel(
-            title: title,
-            message: message,
-            buttonText: buttonText,
-            completion: completion
         )
     }
 }

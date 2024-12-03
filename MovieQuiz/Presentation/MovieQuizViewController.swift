@@ -73,11 +73,9 @@ final class MovieQuizViewController: UIViewController {
     }
     
     func showResult(result: AlertModel, restartAction: @escaping () -> Void) {
-        let message = presenter.makeResultsMessage()
-        
         let alert = UIAlertController(
             title: result.title,
-            message: message,
+            message: result.message,
             preferredStyle: .alert)
         
         let action = UIAlertAction(title: result.buttonText, style: .default) { _ in

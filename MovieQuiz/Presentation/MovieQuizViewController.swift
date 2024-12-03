@@ -9,13 +9,8 @@ final class MovieQuizViewController: UIViewController {
     @IBOutlet private weak var yesButtonOutlet: UIButton!
     @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
     
-    // MARK: - Private Constants
-    private let presenter = MovieQuizPresenter()
-    
     // MARK: - Private Properties
-    private var questionFactory: QuestionFactoryProtocol?
-    private var statisticService: StatisticServiceProtocol?
-    
+    private var presenter: MovieQuizPresenter!
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,83 +35,77 @@ final class MovieQuizViewController: UIViewController {
         activityIndicator.isHidden = true
     }
     
-    // MARK: - Private UI Update Methods
-    private func setup() {
-        setupUI()
-        setupPresenter()
-        statisticService = StatisticServiceImplementation()
-        presenter.viewController = self
-    }
-    private func setupUI() {
-        setupImageBorder()
-        setupDelegate()
-    }
-    
-    private func setupPresenter() {
-        presenter.viewController = self
-        presenter.questionFactory = questionFactory
-        presenter.loadData()
-        presenter.statisticService = statisticService
-    }
-    
-    private func setupDelegate() {
-        self.questionFactory = QuestionFactory(moviesLoader: MoviesLoader(), delegate: self)
-    }
-    
-    private func setupImageBorder() {
-        imageView.layer.borderWidth = 8.0
-        imageView.layer.cornerRadius = 20.0
-        resetImageBorder()
-    }
-    
-    private func resetImageBorder() {
+    func resetImageBorder() {
         imageView.layer.borderColor = UIColor.clear.cgColor
     }
     
-    private func updateButtonState() {
+    func updateButtonState() {
         noButtonOutlet.isEnabled.toggle()
         yesButtonOutlet.isEnabled.toggle()
     }
-    // MARK: - Public Logic Methods
-    func showAnswerResult(isCorrect: Bool) {
-        if isCorrect {
-            presenter.correctAnswers += 1
-        }
-        
-        imageView.layer.borderColor = isCorrect ? UIColor.ypGreen.cgColor : UIColor.ypRed.cgColor
-        updateButtonState()
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
-            guard let self else { return }
-            self.resetImageBorder()
-            self.presenter.showNextQuestionOrResult()
-            self.updateButtonState()
-        }
+    
+    func highlightImageBorder(isCorrectAnswer: Bool) {
+        imageView.layer.borderColor = isCorrectAnswer ? UIColor.ypGreen.cgColor : UIColor.ypRed.cgColor
     }
     
     func show(quiz step: QuizStepViewModel) {
-         counterLabel.text = step.questionNumber
-         textLabel.text = step.question
-         imageView.image = step.image
-     }
-}
-
-// MARK: - QuestionFactoryDelegate
-extension MovieQuizViewController:  QuestionFactoryDelegate {
-    func didReceiveNextQuestion(question: QuizQuestion?) {
-        presenter.didReceiveNextQuestion(question: question)
+        counterLabel.text = step.questionNumber
+        textLabel.text = step.question
+        imageView.image = step.image
     }
     
-    func didLoadDataFromServer() {
-        hideLoadingIndicator()
-        questionFactory?.requestNextQuestion()
+    func showNetworkError(message: String, retryAction: @escaping () -> Void) {
+        activityIndicator.isHidden = true
+        
+        let alert = UIAlertController(
+            title: "Ошибка",
+            message: message,
+            preferredStyle: .alert)
+        
+        let action = UIAlertAction(title: "Попробовать еще раз",
+                                   style: .default) { _ in
+            retryAction()
+        }
+        
+        alert.addAction(action)
+        
+        self.present(alert, animated: true, completion: nil)
     }
     
-    func didFailToLoadData(with error: any Error) {
-        presenter.showLoadDataError(message: error.localizedDescription)
+    func showResult(result: AlertModel, restartAction: @escaping () -> Void) {
+        let message = presenter.makeResultsMessage()
+        
+        let alert = UIAlertController(
+            title: result.title,
+            message: message,
+            preferredStyle: .alert)
+        
+        let action = UIAlertAction(title: result.buttonText, style: .default) { _ in
+            restartAction()
+        }
+        
+        alert.addAction(action)
+        
+        self.present(alert, animated: true, completion: nil)
     }
     
-    func didFailToLoadImage(with error: any Error) {
-        presenter.showLoadImageError(message: error.localizedDescription)
+    // MARK: - Private UI Update Methods
+    private func setup() {
+        setupPresenter()
+        setupUI()
+    }
+    private func setupUI() {
+        setupImageBorder()
+    }
+    
+    private func setupPresenter() {
+        presenter = MovieQuizPresenter(viewController: self)
+    }
+    
+    private func setupImageBorder() {
+        imageView.layer.masksToBounds = true
+        imageView.layer.borderWidth = 8.0
+        imageView.layer.cornerRadius = 20.0
+        resetImageBorder()
     }
 }

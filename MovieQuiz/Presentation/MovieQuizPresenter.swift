@@ -3,8 +3,21 @@ import UIKit
 import Foundation
 
 final class MovieQuizPresenter {
-    private let questionsAmount: Int = 10
+    let questionsAmount: Int = 10
+    #warning("Add (set)")
     private var currentQuestionIndex: Int = .zero
+    
+    func isLastQuestion() -> Bool {
+        currentQuestionIndex == questionsAmount - 1
+    }
+    
+    func resetQuizIndex() {
+        currentQuestionIndex = .zero
+    }
+    
+    func switchToNextQuestion() {
+        currentQuestionIndex += 1
+    }
     
     func convert(model: QuizQuestion) -> QuizStepViewModel {
         let questionStep = QuizStepViewModel(

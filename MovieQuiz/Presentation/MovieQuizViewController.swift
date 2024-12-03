@@ -8,6 +8,7 @@ final class MovieQuizViewController: UIViewController {
     @IBOutlet private weak var noButtonOutlet: UIButton!
     @IBOutlet private weak var yesButtonOutlet: UIButton!
     @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet private weak var waitingView: UIView!
     
     // MARK: - Private Properties
     private var presenter: MovieQuizPresenter!
@@ -27,11 +28,13 @@ final class MovieQuizViewController: UIViewController {
     
     // MARK: - Public UI Update Methods
     func showLoadingIndicator() {
+        waitingView.isHidden = false
         activityIndicator.isHidden = false
         activityIndicator.startAnimating()
     }
     
     func hideLoadingIndicator() {
+        waitingView.isHidden = true
         activityIndicator.isHidden = true
     }
     

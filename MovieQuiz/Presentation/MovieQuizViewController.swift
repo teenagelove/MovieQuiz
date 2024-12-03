@@ -11,6 +11,7 @@ final class MovieQuizViewController: UIViewController {
     
     // MARK: - Private Constants
     private let questionsAmount: Int = 10
+    private let presenter = MovieQuizPresenter()
     
     // MARK: - Private Properties
     private(set) var currentQuestionIndex: Int = .zero
@@ -84,15 +85,6 @@ final class MovieQuizViewController: UIViewController {
     }
     
     // MARK: - Private Logic Methods
-    private func convert(model: QuizQuestion) -> QuizStepViewModel {
-        let questionStep = QuizStepViewModel(
-            image: UIImage(data: model.image) ?? UIImage(),
-            question: model.text,
-            questionNumber: "\(currentQuestionIndex + 1)/\(questionsAmount)"
-        )
-        return questionStep
-    }
-    
     private func showAnswerResult(isCorrect: Bool) {
         if isCorrect {
             correctAnswers += 1
@@ -227,7 +219,7 @@ extension MovieQuizViewController:  QuestionFactoryDelegate {
     func didReceiveNextQuestion(question: QuizQuestion?) {
         guard let question else { return }
         currentQuestion = question
-        let viewModel = convert(model: question)
+        let viewModel = presenter.convert(model: question)
         
         DispatchQueue.main.async { [weak self] in
             self?.hideLoadingIndicator()

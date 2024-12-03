@@ -18,6 +18,7 @@
 		AC84D8362CC8F35E0049FEDC /* QuestionFactoryDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC84D8352CC8F35E0049FEDC /* QuestionFactoryDelegate.swift */; };
 		AC84D8382CC90BBE0049FEDC /* AlertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC84D8372CC90BBE0049FEDC /* AlertModel.swift */; };
 		AC84D83A2CC90CAA0049FEDC /* AlertPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC84D8392CC90CAA0049FEDC /* AlertPresenter.swift */; };
+		AC9957E82CFE9E9300A4C212 /* MovieQuizPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9957E72CFE9E9300A4C212 /* MovieQuizPresenter.swift */; };
 		ACAFE65F2CEDF57F0077B7DD /* NetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACAFE65E2CEDF56B0077B7DD /* NetworkClient.swift */; };
 		ACB248212CC12085001B65FD /* YS Display-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACB2481F2CC12085001B65FD /* YS Display-Medium.ttf */; };
 		ACB248222CC12085001B65FD /* YS Display-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACB2481E2CC12085001B65FD /* YS Display-Bold.ttf */; };
@@ -66,6 +67,7 @@
 		AC84D8352CC8F35E0049FEDC /* QuestionFactoryDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionFactoryDelegate.swift; sourceTree = "<group>"; };
 		AC84D8372CC90BBE0049FEDC /* AlertModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModel.swift; sourceTree = "<group>"; };
 		AC84D8392CC90CAA0049FEDC /* AlertPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPresenter.swift; sourceTree = "<group>"; };
+		AC9957E72CFE9E9300A4C212 /* MovieQuizPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieQuizPresenter.swift; sourceTree = "<group>"; };
 		ACAFE65E2CEDF56B0077B7DD /* NetworkClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkClient.swift; sourceTree = "<group>"; };
 		ACB2481E2CC12085001B65FD /* YS Display-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YS Display-Bold.ttf"; sourceTree = "<group>"; };
 		ACB2481F2CC12085001B65FD /* YS Display-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YS Display-Medium.ttf"; sourceTree = "<group>"; };
@@ -147,6 +149,7 @@
 			isa = PBXGroup;
 			children = (
 				AC84D8392CC90CAA0049FEDC /* AlertPresenter.swift */,
+				AC9957E72CFE9E9300A4C212 /* MovieQuizPresenter.swift */,
 				AD1ABAB52831907B00B3E448 /* MovieQuizViewController.swift */,
 				AD1ABAB72831907B00B3E448 /* Main.storyboard */,
 			);
@@ -398,6 +401,7 @@
 				AC84D83A2CC90CAA0049FEDC /* AlertPresenter.swift in Sources */,
 				AC1D92592CCE4F3700273F4A /* StatisticServiceProtocol.swift in Sources */,
 				AC1D925D2CCE526200273F4A /* StatisticServiceImplementation.swift in Sources */,
+				AC9957E82CFE9E9300A4C212 /* MovieQuizPresenter.swift in Sources */,
 				AC54B9B82CFB0C6E0041A7F2 /* StubNetworkClient.swift in Sources */,
 				ACE0D8C32CC5264000B64D6B /* QuestionFactory.swift in Sources */,
 				ACE0D8C62CC52A7800B64D6B /* QuizQuestion.swift in Sources */,

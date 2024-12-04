@@ -8,9 +8,9 @@ final class MovieQuizPresenter {
     private(set) var currentQuestionIndex: Int = .zero
     private(set) var currentQuestion: QuizQuestion?
     private(set) var questionFactory: QuestionFactoryProtocol?
-    private(set) weak var viewController: MovieQuizViewController?
+    private(set) weak var viewController: MovieQuizViewControllerProtocol?
     
-    init(viewController: MovieQuizViewController) {
+    init(viewController: MovieQuizViewControllerProtocol) {
         self.viewController = viewController
         
         statisticService = StatisticServiceImplementation()
@@ -27,6 +27,15 @@ final class MovieQuizPresenter {
         giveAnswer(givenAnswer: true)
     }
     
+    func convert(model: QuizQuestion) -> QuizStepViewModel {
+        let questionStep = QuizStepViewModel(
+            image: UIImage(data: model.image) ?? UIImage(),
+            question: model.text,
+            questionNumber: "\(currentQuestionIndex + 1)/\(questionsAmount)"
+        )
+        return questionStep
+    }
+    
     private func isLastQuestion() -> Bool {
         currentQuestionIndex == questionsAmount - 1
     }
@@ -39,15 +48,6 @@ final class MovieQuizPresenter {
     
     private func switchToNextQuestion() {
         currentQuestionIndex += 1
-    }
-    
-    private func convert(model: QuizQuestion) -> QuizStepViewModel {
-        let questionStep = QuizStepViewModel(
-            image: UIImage(data: model.image) ?? UIImage(),
-            question: model.text,
-            questionNumber: "\(currentQuestionIndex + 1)/\(questionsAmount)"
-        )
-        return questionStep
     }
     
     private func proceedToNextQuestionOrResults() {

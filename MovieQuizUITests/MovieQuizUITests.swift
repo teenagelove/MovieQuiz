@@ -20,6 +20,7 @@ final class MovieQuizUITests: XCTestCase {
     }
     
     func testGameResultAlert() {
+        sleep(2)
         let noButton = app.buttons["No"]
         let alert = app.alerts["Этот раунд окончен!"]
         let index = app.staticTexts["Index"]

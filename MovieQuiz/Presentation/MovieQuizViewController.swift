@@ -25,8 +25,64 @@ final class MovieQuizViewController: UIViewController {
     @IBAction private func yesButtonClicked(_ sender: UIButton) {
         presenter.yesButtonClicked()
     }
+
+    // MARK: - Private UI Update Methods
+    private func setup() {
+        presenter = MovieQuizPresenter(viewController: self)
+        setupImageBorder()
+    }
     
-    // MARK: - Public UI Update Methods
+    private func setupImageBorder() {
+        imageView.layer.masksToBounds = true
+        imageView.layer.borderWidth = 8.0
+        imageView.layer.cornerRadius = 20.0
+        resetImageBorder()
+    }
+    private func resetImageBorder() {
+        imageView.layer.borderColor = UIColor.clear.cgColor
+    }
+}
+
+extension MovieQuizViewController: MovieQuizViewControllerProtocol {
+    func show(quiz step: QuizStepViewModel) {
+        resetImageBorder()
+        counterLabel.text = step.questionNumber
+        textLabel.text = step.question
+        imageView.image = step.image
+    }
+    
+    func showResult(result: AlertModel, restartAction: @escaping () -> Void) {
+        let alert = UIAlertController(
+            title: result.title,
+            message: result.message,
+            preferredStyle: .alert)
+        
+        let action = UIAlertAction(title: result.buttonText, style: .default) { _ in
+            restartAction()
+        }
+        
+        alert.addAction(action)
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func showNetworkError(message: String, retryAction: @escaping () -> Void) {
+        activityIndicator.isHidden = true
+        
+        let alert = UIAlertController(
+            title: "Ошибка",
+            message: message,
+            preferredStyle: .alert)
+        
+        let action = UIAlertAction(title: "Попробовать еще раз", style: .default) { _ in
+            retryAction()
+        }
+        
+        alert.addAction(action)
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+    
     func showLoadingIndicator() {
         waitingView.isHidden = false
         activityIndicator.isHidden = false
@@ -45,61 +101,5 @@ final class MovieQuizViewController: UIViewController {
     
     func highlightImageBorder(isCorrectAnswer: Bool) {
         imageView.layer.borderColor = isCorrectAnswer ? UIColor.ypGreen.cgColor : UIColor.ypRed.cgColor
-    }
-    
-    func show(quiz step: QuizStepViewModel) {
-        resetImageBorder()
-        counterLabel.text = step.questionNumber
-        textLabel.text = step.question
-        imageView.image = step.image
-    }
-    
-    func showNetworkError(message: String, retryAction: @escaping () -> Void) {
-        activityIndicator.isHidden = true
-        
-        let alert = UIAlertController(
-            title: "Ошибка",
-            message: message,
-            preferredStyle: .alert)
-        
-        let action = UIAlertAction(title: "Попробовать еще раз",
-                                   style: .default) { _ in
-            retryAction()
-        }
-        
-        alert.addAction(action)
-        
-        self.present(alert, animated: true, completion: nil)
-    }
-    
-    func showResult(result: AlertModel, restartAction: @escaping () -> Void) {
-        let alert = UIAlertController(
-            title: result.title,
-            message: result.message,
-            preferredStyle: .alert)
-        
-        let action = UIAlertAction(title: result.buttonText, style: .default) { _ in
-            restartAction()
-        }
-        
-        alert.addAction(action)
-        
-        self.present(alert, animated: true, completion: nil)
-    }
-    
-    // MARK: - Private UI Update Methods
-    private func setup() {
-        presenter = MovieQuizPresenter(viewController: self)
-        setupImageBorder()
-    }
-    
-    private func setupImageBorder() {
-        imageView.layer.masksToBounds = true
-        imageView.layer.borderWidth = 8.0
-        imageView.layer.cornerRadius = 20.0
-        resetImageBorder()
-    }
-    private func resetImageBorder() {
-        imageView.layer.borderColor = UIColor.clear.cgColor
     }
 }

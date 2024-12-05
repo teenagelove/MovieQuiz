@@ -4,7 +4,6 @@
 
 ## **Preview**
 
-![Start](Images/Start.png)
 ![Right](Images/Right.png)
 ![Wrong](Images/Wrong.png)
 

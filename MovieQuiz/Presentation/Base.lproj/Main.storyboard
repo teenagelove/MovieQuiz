@@ -31,6 +31,7 @@
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="1/10" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7GH-bf-vf5" userLabel="Index Label">
                                                 <rect key="frame" x="317" y="0.0" width="36" height="23.666666666666668"/>
+                                                <accessibility key="accessibilityConfiguration" identifier="Index"/>
                                                 <fontDescription key="fontDescription" name="YSDisplay-Medium" family="YS Display" pointSize="20"/>
                                                 <color key="textColor" name="YP White"/>
                                                 <nil key="highlightedColor"/>
@@ -40,6 +41,7 @@
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="SKW-LK-f3A" userLabel="Preview Image">
                                         <rect key="frame" x="0.0" y="43.666666666666686" width="353" height="529.66666666666652"/>
                                         <color key="backgroundColor" name="YP White"/>
+                                        <accessibility key="accessibilityConfiguration" identifier="Poster"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="SKW-LK-f3A" secondAttribute="height" multiplier="2:3" id="By9-pf-vQV"/>
                                         </constraints>
@@ -56,6 +58,7 @@
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dLM-37-I7K" userLabel="No Button">
                                                 <rect key="frame" x="0.0" y="0.0" width="166.66666666666666" height="60"/>
                                                 <color key="backgroundColor" name="YP White"/>
+                                                <accessibility key="accessibilityConfiguration" identifier="No"/>
                                                 <fontDescription key="fontDescription" name="YSDisplay-Medium" family="YS Display" pointSize="20"/>
                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                 <state key="normal" title="Нет">
@@ -73,6 +76,7 @@
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SrK-5h-HMC" userLabel="Yes Button">
                                                 <rect key="frame" x="186.66666666666663" y="0.0" width="166.33333333333337" height="60"/>
                                                 <color key="backgroundColor" name="YP White"/>
+                                                <accessibility key="accessibilityConfiguration" identifier="Yes"/>
                                                 <fontDescription key="fontDescription" name="YSDisplay-Medium" family="YS Display" pointSize="20"/>
                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                 <state key="normal" title="Да">
@@ -94,22 +98,30 @@
                                     </stackView>
                                 </subviews>
                             </stackView>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="q3Q-GH-kFF">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xg2-ei-oh1" userLabel="Waiting View">
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                                <color key="backgroundColor" name="YP Background"/>
+                            </view>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="q3Q-GH-kFF">
                                 <rect key="frame" x="171.66666666666666" y="401" width="50" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="50" id="aeW-BI-w4x"/>
                                     <constraint firstAttribute="height" constant="50" id="xKD-38-7fT"/>
                                 </constraints>
-                                <color key="color" name="YP Gray"/>
+                                <color key="color" name="YP White"/>
                             </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" name="YP Black"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="xg2-ei-oh1" secondAttribute="trailing" id="1ck-Mc-g8I"/>
+                            <constraint firstItem="xg2-ei-oh1" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="6fz-HD-MiS"/>
+                            <constraint firstItem="xg2-ei-oh1" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="71a-g0-vwv"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="aDc-hN-vhW" secondAttribute="bottom" id="Ghr-UY-i5I"/>
                             <constraint firstItem="q3Q-GH-kFF" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="HxM-2j-Nmd"/>
                             <constraint firstItem="aDc-hN-vhW" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="UI2-v6-sJz"/>
                             <constraint firstItem="aDc-hN-vhW" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="cLQ-9q-TRk"/>
+                            <constraint firstAttribute="bottom" secondItem="xg2-ei-oh1" secondAttribute="bottom" id="eR7-G7-xQd"/>
                             <constraint firstItem="q3Q-GH-kFF" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="gul-Cq-WXe"/>
                             <constraint firstAttribute="trailing" secondItem="aDc-hN-vhW" secondAttribute="trailing" constant="20" id="lsg-Oa-gcb"/>
                         </constraints>
@@ -120,6 +132,7 @@
                         <outlet property="imageView" destination="SKW-LK-f3A" id="tIp-L9-PrK"/>
                         <outlet property="noButtonOutlet" destination="dLM-37-I7K" id="3a4-qH-FEb"/>
                         <outlet property="textLabel" destination="axK-go-GmU" id="GD4-uh-gpK"/>
+                        <outlet property="waitingView" destination="xg2-ei-oh1" id="9hx-9p-XUv"/>
                         <outlet property="yesButtonOutlet" destination="SrK-5h-HMC" id="7xT-L8-KK6"/>
                     </connections>
                 </viewController>
@@ -129,11 +142,11 @@
         </scene>
     </scenes>
     <resources>
+        <namedColor name="YP Background">
+            <color red="0.10196078431372549" green="0.10588235294117647" blue="0.13333333333333333" alpha="0.60000002384185791" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="YP Black">
             <color red="0.10196078431372549" green="0.10588235294117647" blue="0.13333333333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="YP Gray">
-            <color red="0.90196078431372551" green="0.90980392156862744" blue="0.92156862745098034" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="YP White">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

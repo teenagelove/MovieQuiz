@@ -5,11 +5,10 @@
 ---
 
 ## **Preview**
-https://www.figma.com/design/l0IMG3Eys35fUrbvArtwsR/YP-Quiz?node-id=367-616&t=WRjf3GHndTd4Gvh2-4
-[Start.png] (./Images/)
-[Right.png] (./Images/)
-[Wrong.png] (./Images/)
----
+
+![Start](Images/Start.png)
+![Right](Images/Right.png)
+![Wrong](Images/Wrong.png)---
 
 ## **Links**
 

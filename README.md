@@ -4,8 +4,8 @@
 
 ## **Preview**
 
-![Right](Images/Right.png)
-![Wrong](Images/Wrong.png)
+![Right](Images/RightScreen.png)
+![Wrong](Images/WrongScreen.png)
 
 ---
 

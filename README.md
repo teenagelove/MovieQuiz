@@ -4,12 +4,8 @@
 
 ## **Preview**
 
-<p align="center">
-  <img src="Images/RightScreen.png">
-</p>
-<p align="center">
-  <img src="Images/WrongScreen.png">
-</p>
+![Right](Images/Right.png)
+![Wrong](Images/Wrong.png)
 
 ---
 

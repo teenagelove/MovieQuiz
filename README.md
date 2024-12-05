@@ -5,8 +5,8 @@
 ## **Preview**
 
 <p align="center">
-  <img src="Images/RightScreen.png" alt="Right" width="380">
-  <img src="Images/WrongScreen.png" alt="Wrong" width="380">
+  <img src="Images/RightScreen.png" alt="Right" width="400">
+  <img src="Images/WrongScreen.png" alt="Wrong" width="400">
 </p>
 
 ---

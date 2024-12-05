@@ -4,7 +4,7 @@
 
 ## **Preview**
 
-![Start](Images/Start.png)
+![Start](Images/Start1.png)
 ![Right](Images/Right.png)
 ![Wrong](Images/Wrong.png)
 
@@ -17,8 +17,6 @@
 [API IMDb](https://tv-api.com/api#Top250Movies-header)
 
 [Fonts](https://code.s3.yandex.net/Mobile/iOS/Fonts/MovieQuizFonts.zip)
-
----
 
 ## **App Description**
 
@@ -56,7 +54,6 @@ A single-page application with quizzes about films from the IMDb Top 250 and the
 - **Error Handling:**  
   If data cannot be loaded, an alert appears with a message that something went wrong and a button to retry the network request.
 
----
 
 ## **Technical Requirements**
 

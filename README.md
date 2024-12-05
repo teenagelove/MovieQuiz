@@ -1,14 +1,14 @@
 ## **MovieQuiz**
 
-**MovieQuiz** is an app featuring quizzes about films from the IMDb Top 250 and the most popular movies.
-
----
+**MovieQuiz** - is an app featuring quizzes about films from the IMDb Top 250 and the most popular movies.
 
 ## **Preview**
 
 ![Start](Images/Start.png)
 ![Right](Images/Right.png)
-![Wrong](Images/Wrong.png)---
+![Wrong](Images/Wrong.png)
+
+---
 
 ## **Links**
 
@@ -23,8 +23,6 @@
 ## **App Description**
 
 A single-page application with quizzes about films from the IMDb Top 250 and the most popular movies. The user answers questions about movie ratings. After each round, the app displays statistics on the number of correct answers and the user's best results. The goal is to answer all 10 questions in a round correctly.
-
----
 
 ## **Functional Requirements**
 
@@ -60,8 +58,7 @@ A single-page application with quizzes about films from the IMDb Top 250 and the
 
 ---
 
-## **Technical Requirements
-**
+## **Technical Requirements**
 
 - **Device Support:**  
   Supports iPhone devices running iOS 15; portrait mode only.

@@ -2,14 +2,19 @@ import UIKit
 
 
 final class MovieQuizPresenter {
+    // MARK: - Private Constants
     private let questionsAmount: Int = 10
     private let statisticService: StatisticServiceProtocol!
+    
+    // MARK: - Private Properties
     private(set) var correctAnswers:Int = .zero
     private(set) var currentQuestionIndex: Int = .zero
     private(set) var currentQuestion: QuizQuestion?
     private(set) var questionFactory: QuestionFactoryProtocol?
     private(set) weak var viewController: MovieQuizViewControllerProtocol?
     
+    
+    // MARK: - Initializers
     init(viewController: MovieQuizViewControllerProtocol) {
         self.viewController = viewController
         
@@ -20,11 +25,10 @@ final class MovieQuizPresenter {
         viewController.showLoadingIndicator()
     }
     
-    func noButtonClicked() {
-        giveAnswer(givenAnswer: false)
-    }
-    func yesButtonClicked() {
-        giveAnswer(givenAnswer: true)
+    // MARK: - Public Methods
+    func giveAnswer(isTrue answer: Bool) {
+        guard let currentQuestion else { return }
+        proceedWithAnswer(isCorrect: currentQuestion.correctAnswer == answer)
     }
     
     func convert(model: QuizQuestion) -> QuizStepViewModel {
@@ -36,6 +40,7 @@ final class MovieQuizPresenter {
         return questionStep
     }
     
+    // MARK: - Private Methods
     private func isLastQuestion() -> Bool {
         currentQuestionIndex == questionsAmount - 1
     }
@@ -101,11 +106,6 @@ final class MovieQuizPresenter {
             self.proceedToNextQuestionOrResults()
             viewController?.updateButtonState()
         }
-    }
-    
-    private func giveAnswer(givenAnswer answer: Bool) {
-        guard let currentQuestion else { return }
-        proceedWithAnswer(isCorrect: currentQuestion.correctAnswer == answer)
     }
     
     private func saveResult() {

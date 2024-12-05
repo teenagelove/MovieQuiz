@@ -21,10 +21,10 @@ final class MovieQuizViewController: UIViewController {
     
     // MARK: - IBActions
     @IBAction private func noButtonClicked(_ sender: UIButton) {
-        presenter.noButtonClicked()
+        presenter.giveAnswer(isTrue: false)
     }
     @IBAction private func yesButtonClicked(_ sender: UIButton) {
-        presenter.yesButtonClicked()
+        presenter.giveAnswer(isTrue: true)
     }
 
     // MARK: - Private UI Update Methods
@@ -39,11 +39,13 @@ final class MovieQuizViewController: UIViewController {
         imageView.layer.cornerRadius = 20.0
         resetImageBorder()
     }
+    
     private func resetImageBorder() {
         imageView.layer.borderColor = UIColor.clear.cgColor
     }
 }
 
+// MARK: - MovieQuizViewControllerProtocol
 extension MovieQuizViewController: MovieQuizViewControllerProtocol {
     func show(quiz step: QuizStepViewModel) {
         resetImageBorder()

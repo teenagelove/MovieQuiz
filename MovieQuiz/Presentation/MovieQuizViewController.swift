@@ -12,6 +12,7 @@ final class MovieQuizViewController: UIViewController {
     
     // MARK: - Private Properties
     private var presenter: MovieQuizPresenter!
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,13 +86,12 @@ extension MovieQuizViewController: MovieQuizViewControllerProtocol {
     
     func showLoadingIndicator() {
         waitingView.isHidden = false
-        activityIndicator.isHidden = false
         activityIndicator.startAnimating()
     }
     
     func hideLoadingIndicator() {
         waitingView.isHidden = true
-        activityIndicator.isHidden = true
+        activityIndicator.stopAnimating()
     }
     
     func updateButtonState() {

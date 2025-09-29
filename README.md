@@ -1,5 +1,17 @@
 ## **MovieQuiz**
 
+![Swift](https://img.shields.io/badge/Swift-%23FA7343?logo=swift&logoColor=white)
+![Xcode](https://img.shields.io/badge/Xcode-%23147EFB?logo=xcode&logoColor=white)
+![iOS 15+](https://img.shields.io/badge/iOS-15%2B-%23000000?logo=apple&logoColor=white)
+![UIKit](https://img.shields.io/badge/UIKit-%23007AFF?logo=apple&logoColor=white)
+![MVP](https://img.shields.io/badge/Architecture-MVP-%23696cff)
+![Tests](https://img.shields.io/badge/Unit%20Tests-yes-%234CAF50)
+![User Defaults](https://img.shields.io/badge/Persistence-User%20Defaults-%234CAF50)
+![URLSession](https://img.shields.io/badge/Networking-URLSession-%23007AFF)
+![IMDb API](https://img.shields.io/badge/API-IMDb-%23FFC107)
+![License](https://img.shields.io/badge/License-MIT-%23000000)
+
+
 **MovieQuiz** - is an app featuring quizzes about films from the IMDb Top 250 and the most popular movies.
 
 ## **Preview**

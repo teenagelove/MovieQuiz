@@ -1,4 +1,4 @@
-## **MovieQuiz**
+## 🎬 **MovieQuiz**
 
 **MovieQuiz** - is an app featuring quizzes about films from the IMDb Top 250 and the most popular movies.
 
@@ -13,7 +13,7 @@
 ![IMDb API](https://img.shields.io/badge/API-IMDb-%23FFC107)
 ![License](https://img.shields.io/badge/License-MIT-%23000000)
 
-## **Preview**
+## 🖼️ **Preview**
 
 <p align="center">
   <img src="Images/RightScreen.png" alt="Right" width="400">
@@ -22,11 +22,14 @@
 
 ---
 
-## **App Description**
+## 🔗 **Links**
+[API IMDb](https://tv-api.com/api#Top250Movies-header)
+
+## 📝 **App Description**
 
 A single-page application with quizzes about films from the IMDb Top 250 and the most popular movies. The user answers questions about movie ratings. After each round, the app displays statistics on the number of correct answers and the user's best results. The goal is to answer all 10 questions in a round correctly.
 
-## **Functional Requirements**
+## 📜 **Functional Requirements**
 
 - **Splash Screen:**  
   Displays when the app launches.
@@ -59,7 +62,7 @@ A single-page application with quizzes about films from the IMDb Top 250 and the
   If data cannot be loaded, an alert appears with a message that something went wrong and a button to retry the network request.
 
 
-## **Technical Requirements**
+## ⚙️ **Technical Requirements**
 
 - **Device Support:**  
   Supports iPhone devices running iOS 15; portrait mode only.

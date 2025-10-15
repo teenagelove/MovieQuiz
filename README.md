@@ -22,14 +22,6 @@
 
 ---
 
-## **Links**
-
-[Figma Design](https://www.figma.com/file/l0IMG3Eys35fUrbvArtwsR/YP-Quiz?node-id=34%3A243)
-
-[API IMDb](https://tv-api.com/api#Top250Movies-header)
-
-[Fonts](https://code.s3.yandex.net/Mobile/iOS/Fonts/MovieQuizFonts.zip)
-
 ## **App Description**
 
 A single-page application with quizzes about films from the IMDb Top 250 and the most popular movies. The user answers questions about movie ratings. After each round, the app displays statistics on the number of correct answers and the user's best results. The goal is to answer all 10 questions in a round correctly.
